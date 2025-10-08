@@ -9,5 +9,5 @@ public class Category : BaseAggregate
     public string? Description { get; set; }
     public required string Code { get; set; }
     public int SortOrder { get; set; }
-    public bool IsActive { get; set; }
+    public bool IsActive { get; set; } = true;
 }

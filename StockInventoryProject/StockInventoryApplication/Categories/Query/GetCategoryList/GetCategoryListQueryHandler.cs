@@ -1,7 +1,7 @@
 using MediatR;
 using StockInventoryDomain.Abstractions;
 
-namespace StockInventoryApplication.Category.Query.GetCategoryList;
+namespace StockInventoryApplication.Categories.Query.GetCategoryList;
 
 public class GetCategoryListQueryHandler(ICategoryRepository categoryRepository) : IRequestHandler<GetCategoryListQuery, List<CategoryDto>>
 {

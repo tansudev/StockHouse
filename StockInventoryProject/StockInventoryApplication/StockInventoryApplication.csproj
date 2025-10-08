@@ -11,13 +11,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Category\Command\" />
-    <Folder Include="Inventory\" />
-    <Folder Include="Inventory\Command\" />
-    <Folder Include="Inventory\Query\" />
-    <Folder Include="Product\" />
-    <Folder Include="Product\Command\" />
-    <Folder Include="Product\Query\" />
+    <Folder Include="Inventories\" />
+    <Folder Include="Inventories\Command\" />
+    <Folder Include="Inventories\Query\" />
+    <Folder Include="Products\" />
+    <Folder Include="Products\Command\" />
+    <Folder Include="Products\Query\" />
   </ItemGroup>
 
   <ItemGroup>

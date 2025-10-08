@@ -1,6 +1,6 @@
 using System;
 
-namespace StockInventoryApplication.Category.Query.GetCategoryList;
+namespace StockInventoryApplication.Categories.Query.GetCategoryList;
 
 public class CategoryDto
 {
