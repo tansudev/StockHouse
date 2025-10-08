@@ -4,6 +4,7 @@ using StockInventoryInfrastructure.Persistence;
 using StockInventoryInfrastructure.Persistence.Repositories;
 using StockInventoryService.Endpoints;
 using StockInventoryApplication;
+using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,6 +29,8 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
 builder.Services.AddScoped<IUnitOfWork, EfUnitOfWork>();
 builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+
+builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(EfCommitBehavior<,>));
 
 var app = builder.Build();
 

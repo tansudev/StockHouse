@@ -1,8 +1,9 @@
 using MediatR;
+using StockInventoryApplication.Abstractions.Messaging;
 
 namespace StockInventoryApplication.Categories.Command.CreateCategory;
 
-public class CreateCategoryCommand : IRequest<Unit>
+public class CreateCategoryCommand : ICommand
 {
     public Guid? ParentId { get; set; }
     public required string Name { get; set; }

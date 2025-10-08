@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using StockInventoryApplication.Category.Query.GetCategoryList;
+using StockInventoryApplication.Categories.Command.CreateCategory;
+using StockInventoryApplication.Categories.Query.GetCategoryList;
 
 namespace StockInventoryService.Endpoints;
 
@@ -15,5 +16,10 @@ public static class CategoryEndpoints
             return Results.Ok(result);
         })
         .Produces<List<CategoryDto>>(StatusCodes.Status200OK);
+        app.MapPost("/categories", async ([FromServices] IMediator mediator, [FromBody] CreateCategoryCommand command, CancellationToken cancellationToken) =>
+        {
+            await mediator.Send(command, cancellationToken);
+            return Results.Ok();
+        });
     }
 }
