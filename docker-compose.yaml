@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:16
+    container_name: stockhouse-postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: stockhouse123
+      POSTGRES_DB: StockHouseDB
+    ports:
+      - "5432:5432"
+    volumes:
+      - stockhouse_pg:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  stockhouse_pg:

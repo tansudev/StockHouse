@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="13.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Category\Command\" />
+    <Folder Include="Inventory\" />
+    <Folder Include="Inventory\Command\" />
+    <Folder Include="Inventory\Query\" />
+    <Folder Include="Product\" />
+    <Folder Include="Product\Command\" />
+    <Folder Include="Product\Query\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StockInventoryDomain\StockInventoryDomain.csproj" />
+  </ItemGroup>
+
+</Project>
