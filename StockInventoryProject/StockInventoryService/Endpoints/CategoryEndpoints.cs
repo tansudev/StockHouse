@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using StockInventoryApplication.Categories.Command.CreateCategory;
+using StockInventoryApplication.Categories.Command.DeleteCategory;
 using StockInventoryApplication.Categories.Query.GetCategoryList;
 
 namespace StockInventoryService.Endpoints;
@@ -18,6 +19,12 @@ public static class CategoryEndpoints
         .Produces<List<CategoryDto>>(StatusCodes.Status200OK);
         app.MapPost("/categories", async ([FromServices] IMediator mediator, [FromBody] CreateCategoryCommand command, CancellationToken cancellationToken) =>
         {
+            await mediator.Send(command, cancellationToken);
+            return Results.Ok();
+        });
+        app.MapDelete("/categories/{id:guid}", async ([FromServices] IMediator mediator, [FromRoute] Guid id, CancellationToken cancellationToken) =>
+        {
+            var command = new DeleteCategoryCommand { Id = id };
             await mediator.Send(command, cancellationToken);
             return Results.Ok();
         });
