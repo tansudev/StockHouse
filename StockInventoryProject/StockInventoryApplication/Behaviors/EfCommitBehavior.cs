@@ -1,7 +1,7 @@
 using MediatR;
 using StockInventoryApplication.Abstractions.Messaging;
 using StockInventoryDomain.Abstractions;
-namespace StockInventoryApplication;
+namespace StockInventoryApplication.Behaviors;
 
 public class EfCommitBehavior<TRequest, TResponse>(IUnitOfWork unitOfWork) : IPipelineBehavior<TRequest, TResponse> where TRequest : notnull
 {
