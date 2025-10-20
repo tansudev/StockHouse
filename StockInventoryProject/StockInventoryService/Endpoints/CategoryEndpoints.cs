@@ -4,6 +4,8 @@ using StockInventoryApplication.Categories.Command.CreateCategory;
 using StockInventoryApplication.Categories.Command.DeleteCategory;
 using StockInventoryApplication.Categories.Command.UpdateCategory;
 using StockInventoryApplication.Categories.Query.GetCategoryList;
+using StockInventoryDomain.Aggregates;
+using StockInventoryService.Extensions;
 
 namespace StockInventoryService.Endpoints;
 
@@ -35,5 +37,6 @@ public static class CategoryEndpoints
             await mediator.Send(command, cancellationToken);
             return Results.Ok();
         });
+        app.MapSoftDeleteFor<Category>("/categories/soft");
     }
 }

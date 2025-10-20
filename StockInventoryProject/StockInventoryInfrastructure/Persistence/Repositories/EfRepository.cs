@@ -2,10 +2,11 @@ using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using StockInventoryDomain;
 using StockInventoryDomain.Abstractions;
+using StockInventoryDomain.Common;
 
 namespace StockInventoryInfrastructure.Persistence.Repositories;
 
-public class EfRepository<T>(AppDbContext db) : IRepository<T> where T : BaseAggregate
+public class EfRepository<T>(AppDbContext db) : IRepository<T> where T : SoftDeletableAggregate
 {
     protected readonly AppDbContext _db = db;
     protected readonly DbSet<T> _set = db.Set<T>();
@@ -33,6 +34,14 @@ public class EfRepository<T>(AppDbContext db) : IRepository<T> where T : BaseAgg
     public virtual Task<List<T>> GetAsync(Expression<Func<T, bool>> predicate, CancellationToken ct = default) => _set.AsNoTracking().Where(predicate).ToListAsync(ct);
 
     public virtual Task<T?> GetByIdAsync(Guid id, CancellationToken ct = default) => _set.FindAsync([id], ct).AsTask();
+
+    public async Task<List<T>> GetByIdsAsync(IEnumerable<Guid> ids, CancellationToken ct = default)
+    {
+        var idList = ids.Distinct().ToList();
+        return await _db.Set<T>()
+             .Where(e => idList.Contains(e.Id))
+             .ToListAsync(ct);
+    }
 
     public virtual Task UpdateAsync(T entity, CancellationToken ct = default)
     {

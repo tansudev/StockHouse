@@ -1,8 +1,9 @@
 using System;
+using StockInventoryDomain.Common;
 
 namespace StockInventoryDomain.Aggregates;
 
-public class Product : BaseAggregate
+public class Product : SoftDeletableAggregate
 {
     public required string Name { get; set; }
     public string? Description { get; set; }

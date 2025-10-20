@@ -6,6 +6,8 @@ using StockInventoryService.Endpoints;
 using StockInventoryApplication;
 using MediatR;
 using StockInventoryApplication.Behaviors;
+using StockInventoryService.Extensions;
+using StockInventoryApplication.Common.SoftDelete;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,12 +16,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddStockApplication();
 
 var connectionString = builder.Configuration.GetConnectionString("ConnectionString");
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(connectionString));
-
 
 if (string.IsNullOrWhiteSpace(connectionString))
     throw new InvalidOperationException("PostgreSQL connection string 'ConnectionString' not found.");
@@ -30,6 +30,10 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
 builder.Services.AddScoped<IUnitOfWork, EfUnitOfWork>();
 builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddSingleton<INow, SystemNow>();
+builder.Services.AddScoped<ICurrentUser, HttpContextCurrentUser>();
+
+
 
 builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
 builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(EfCommitBehavior<,>));

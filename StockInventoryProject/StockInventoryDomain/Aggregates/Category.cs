@@ -1,8 +1,9 @@
 using System;
+using StockInventoryDomain.Common;
 
 namespace StockInventoryDomain.Aggregates;
 
-public class Category : BaseAggregate
+public class Category : SoftDeletableAggregate
 {
     public Guid ParentId { get; set; }
     public required string Name { get; set; }
