@@ -9,9 +9,9 @@ public static class SoftDeleteEndpointExtensions
 {
     public static IEndpointRouteBuilder MapSoftDeleteFor<TAggregate>(this IEndpointRouteBuilder app, string routeBase) where TAggregate : SoftDeletableAggregate
     {
-        app.MapDelete($"{routeBase}/{{id:guid}}", async (Guid id, [FromServices] IMediator mediator, CancellationToken ct) =>
+        app.MapDelete($"{routeBase}/{{id:guid}}", async ([FromServices] IMediator mediator, [FromRoute] Guid id, CancellationToken ct) =>
         {
-            var command = new SoftDeleteCommand<TAggregate>([id]);
+            var command = new SoftDeleteCommand<TAggregate>(new List<Guid> { id });
             var result = await mediator.Send(command, ct);
 
             return Results.Ok(new SoftDeleteResult(result.Effected, result.NotFound, result.AlreadyDeleted));

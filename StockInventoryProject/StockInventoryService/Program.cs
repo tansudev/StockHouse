@@ -7,7 +7,6 @@ using StockInventoryApplication;
 using MediatR;
 using StockInventoryApplication.Behaviors;
 using StockInventoryService.Extensions;
-using StockInventoryApplication.Common.SoftDelete;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,8 +31,6 @@ builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddSingleton<INow, SystemNow>();
 builder.Services.AddScoped<ICurrentUser, HttpContextCurrentUser>();
-
-
 
 builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
 builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(EfCommitBehavior<,>));
