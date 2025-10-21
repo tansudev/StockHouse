@@ -14,9 +14,7 @@ public static class DependencyInjectionStock
 
         // Marker-type yaklaşımıyla assembly’i işaretleyin
         services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(
-            Assembly.GetExecutingAssembly(),
-            typeof(SoftDeleteCommand<>).Assembly,
-            typeof(SoftDeleteCommandHandler<>).Assembly));
+              Assembly.GetExecutingAssembly()));
 
         // Some IoC/scan combinations may not wire open-generic handlers for closed generic requests
         // automatically. To ensure MediatR can resolve e.g. SoftDeleteCommand<Category>, register
