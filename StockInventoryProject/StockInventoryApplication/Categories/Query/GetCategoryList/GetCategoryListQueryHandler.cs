@@ -1,23 +1,17 @@
+using AutoMapper;
 using MediatR;
 using StockInventoryDomain.Abstractions;
 
 namespace StockInventoryApplication.Categories.Query.GetCategoryList;
 
-public class GetCategoryListQueryHandler(ICategoryRepository categoryRepository) : IRequestHandler<GetCategoryListQuery, List<CategoryDto>>
+public class GetCategoryListQueryHandler(ICategoryRepository categoryRepository, IMapper mapper) : IRequestHandler<GetCategoryListQuery, List<CategoryDto>>
 {
     private readonly ICategoryRepository _categoryRepository = categoryRepository;
+    private readonly IMapper _mapper = mapper;
 
     public async Task<List<CategoryDto>> Handle(GetCategoryListQuery request, CancellationToken cancellationToken)
     {
         var categories = await _categoryRepository.GetAllAsync(cancellationToken);
-        return [.. categories.Select(c => new CategoryDto
-        {
-            ParentId = c.ParentId,
-            Name = c.Name,
-            Description = c.Description,
-            Code = c.Code,
-            SortOrder = c.SortOrder,
-            IsActive = c.IsActive
-        })];
+        return _mapper.Map<List<CategoryDto>>(categories);
     }
 }

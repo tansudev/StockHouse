@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using StockInventoryApplication.Categories.Command.CreateCategory;
 using StockInventoryApplication.Categories.Command.DeleteCategory;
 using StockInventoryApplication.Categories.Command.UpdateCategory;
+using StockInventoryApplication.Categories.Query.GetCategoryById;
 using StockInventoryApplication.Categories.Query.GetCategoryList;
 using StockInventoryDomain.Aggregates;
 using StockInventoryService.Extensions;
@@ -20,6 +21,12 @@ public static class CategoryEndpoints
             return Results.Ok(result);
         })
         .Produces<List<CategoryDto>>(StatusCodes.Status200OK);
+        app.MapGet("/categories/{id:guid}", async ([FromServices] IMediator mediator, [FromRoute] Guid id, CancellationToken cancellationToken) =>
+        {
+            var query = new GetCategoryByIdQuery(id);
+            var result = await mediator.Send(query, cancellationToken);
+            return result != null ? Results.Ok(result) : Results.NotFound();
+        });
         app.MapPost("/categories", async ([FromServices] IMediator mediator, [FromBody] CreateCategoryCommand command, CancellationToken cancellationToken) =>
         {
             await mediator.Send(command, cancellationToken);
