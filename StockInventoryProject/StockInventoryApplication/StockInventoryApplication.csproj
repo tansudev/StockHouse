@@ -13,9 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Inventories\" />
-    <Folder Include="Inventories\Command\" />
-    <Folder Include="Inventories\Query\" />
     <Folder Include="Products\" />
     <Folder Include="Products\Command\" />
     <Folder Include="Products\Query\" />
