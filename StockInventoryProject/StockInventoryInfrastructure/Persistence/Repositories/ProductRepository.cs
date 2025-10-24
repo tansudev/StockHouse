@@ -1,9 +1,10 @@
 using Microsoft.EntityFrameworkCore;
+using StockInventoryDomain.Abstractions;
 using StockInventoryDomain.Aggregates;
 
 namespace StockInventoryInfrastructure.Persistence.Repositories;
 
-public class ProductRepository : EfRepository<Product>
+public class ProductRepository : EfRepository<Product>, IProductRepository
 {
     private new readonly AppDbContext _db;
     private readonly DbSet<Product> _products;

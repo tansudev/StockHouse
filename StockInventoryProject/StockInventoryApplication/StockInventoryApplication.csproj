@@ -13,12 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Products\" />
-    <Folder Include="Products\Command\" />
-    <Folder Include="Products\Query\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\StockInventoryDomain\StockInventoryDomain.csproj" />
     <ProjectReference Include="..\StockInventoryInfrastructure\StockInventoryInfrastructure.csproj" />
   </ItemGroup>

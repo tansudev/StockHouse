@@ -31,6 +31,7 @@ builder.Services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
 builder.Services.AddScoped<IUnitOfWork, EfUnitOfWork>();
 builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddSingleton<INow, SystemNow>();
 builder.Services.AddScoped<ICurrentUser, HttpContextCurrentUser>();
 
@@ -52,6 +53,7 @@ app.UseHttpsRedirection();
 
 app.MapInventoryEndpoints();
 app.MapCategoryEndpoints();
+app.MapProductEndpoints();
 
 app.Run();
 

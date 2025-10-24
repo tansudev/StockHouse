@@ -35,6 +35,7 @@ public static class InventoryEndpoints
         app.MapPut("/inventories/{id:guid}", async ([FromServices] IMediator mediator, [FromRoute] Guid id, [FromBody] UpdateInventoryCommand command, CancellationToken cancellationToken) =>
         {
             command.Id = id;
+            await mediator.Send(command, cancellationToken);
             return Results.Ok();
         });
         app.MapDelete("/inventories/{id:guid}", async ([FromServices] IMediator mediator, [FromRoute] Guid id, CancellationToken cancellationToken) =>

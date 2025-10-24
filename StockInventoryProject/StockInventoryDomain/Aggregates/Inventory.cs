@@ -1,4 +1,3 @@
-using System;
 using StockInventoryDomain.Common;
 
 namespace StockInventoryDomain.Aggregates;
