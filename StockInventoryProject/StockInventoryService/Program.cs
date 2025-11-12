@@ -20,13 +20,13 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddStockApplication();
 
-var connectionString = builder.Configuration.GetConnectionString("ConnectionString");
+// Aspire PostgreSQL - Aspire otomatik connection string inject eder
+builder.AddNpgsqlDbContext<AppDbContext>("ConnectionString");
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+});
 
-if (string.IsNullOrWhiteSpace(connectionString))
-    throw new InvalidOperationException("PostgreSQL connection string 'ConnectionString' not found.");
-
-// DI registrations MUST be before Build()
-builder.Services.AddDbContext<AppDbContext>(o => o.UseNpgsql(connectionString));
 builder.Services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
 builder.Services.AddScoped<IUnitOfWork, EfUnitOfWork>();
 builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
@@ -40,6 +40,24 @@ builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(EfCommitBehavior
 
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
+var cs = builder.Configuration.GetConnectionString("ConnectionString");
+Console.WriteLine("[DBG] Effective CS: " + cs?.Replace("stockhouse123", "*****"));
+
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("DevelopmentCors", policy =>
+    {
+        policy
+            .WithOrigins("http://localhost:3000")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+});
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -51,13 +69,18 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// CORS middleware'ini endpoints'den önce ekle
+app.UseCors("DevelopmentCors");
+
+// Health Check endpoints
+app.MapHealthChecks("/health");
+app.MapHealthChecks("/health/ready", new Microsoft.AspNetCore.Diagnostics.HealthChecks.HealthCheckOptions
+{
+    Predicate = check => check.Tags.Contains("ready")
+});
+
 app.MapInventoryEndpoints();
 app.MapCategoryEndpoints();
 app.MapProductEndpoints();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

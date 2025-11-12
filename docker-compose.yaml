@@ -1,9 +1,10 @@
 services:
+  # PostgreSQL Database
   db:
     image: postgres:16
     container_name: stockhouse-postgres
     environment:
-      POSTGRES_USER: admin
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: stockhouse123
       POSTGRES_DB: StockHouseDB
     ports:
@@ -11,6 +12,37 @@ services:
     volumes:
       - stockhouse_pg:/var/lib/postgresql/data
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d StockHouseDB"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Redis Cache (gelecekteki kullanım için)
+  redis:
+    image: redis:7-alpine
+    container_name: stockhouse-redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Nginx Reverse Proxy (gelecekteki kullanım için)
+  # nginx:
+  #   image: nginx:alpine
+  #   container_name: stockhouse-nginx
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ./nginx.conf:/etc/nginx/nginx.conf
+  #   depends_on:
+  #     - api
+  #   restart: unless-stopped
 
 volumes:
   stockhouse_pg:

@@ -12,8 +12,8 @@ using StockInventoryInfrastructure.Persistence;
 namespace StockInventoryInfrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251008142445_BaseAggregate")]
-    partial class BaseAggregate
+    [Migration("20251104083518_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
