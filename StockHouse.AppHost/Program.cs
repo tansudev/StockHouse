@@ -13,7 +13,7 @@ var api = builder.AddProject<StockInventoryService>("stockinventory-api")
     .WithReference(redis);
 
 // React Frontend - Path'i configuration'dan al
-var reactProjectPath = builder.Configuration["ReactProjectPath"] ?? @"C:\Users\mss_t\source\repos\StockHouseUI\stockhouse-ui";
+var reactProjectPath = builder.Configuration["ReactProjectPath"] ?? @"..\..\StockHouseUIApp";
 var frontend = builder.AddExecutable("stockhouse-frontend", "npm", reactProjectPath, "run", "dev")
     .WithReference(api)
     .WithEnvironment("REACT_APP_API_URL", api.GetEndpoint("http"))
