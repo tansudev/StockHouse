@@ -4,6 +4,7 @@ namespace StockInventoryApplication.Products.Query.GetProductList;
 
 public class ProductDto
 {
+    public Guid Id { get; set; }
     public required string Name { get; set; }
     public string? Description { get; set; }
     public required string Sku { get; set; }
